@@ -1,7 +1,6 @@
-import React from 'react';
-import "./App.css"
+'use strict';
 
-class App extends React.Component {
+class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,4 +39,7 @@ class App extends React.Component {
   }
 }
 
-export default App;
+ReactDOM.render(
+  <Calculator />,
+  document.getElementById('root')
+);
