@@ -5,77 +5,15 @@ class Calculator extends React.Component {
     super(props);
     this.state = {
       display: "0",
-      history: "",
-      decimalUsed: false,
+      history: ""
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
   }
 
   handleButtonClick(e) {
-    e.preventDefault();
-    let value = e.target.innerHTML;
-    if (value === "x") value = "*";
-    let lastCharacter = this.state.history.slice(-1);
-    let operations = ["+", "-", "*", "/"];
-
-    if (Number.isInteger(Number(value))) {
-        if ((this.state.history === "") && value === "0") {
-          return;
-        } else if (this.state.history === "") {
-          this.setState({
-            display: value,
-            history: value
-          })
-        } else if (operations.includes(lastCharacter)) {
-          this.setState((state) => ({
-            display: value,
-            history: state.history + value,
-          }));
-        } else {
-          this.setState((state) => ({
-            display: state.display + value,
-            history: state.history + value,
-          }));
-        }
-    } else if (value === "AC") {
-      this.setState({
-        display: "0",
-        history: "",
-        decimalUsed: false
-      })
-    } else if (value === "=") {
-      this.setState((state) => ({
-        display: eval(state.history),
-        history: ""
-      }));
-    } else if (operations.includes(value)) {
-      if (value !== "-" && operations.includes(lastCharacter)) {
-        this.setState((state) => ({
-          history: state.history.slice(0, state.history.length - 1) + value,
-          display: "",
-          decimalUsed: false,
-        }));
-      } else {
-        this.setState((state) => ({
-          history: state.history + value,
-          display: "",
-          decimalUsed: false,
-        }));
-      }
-
-    } else if (value === ".") {
-      if (this.state.decimalUsed) return;
-      else {
-        this.setState((state) => ({
-          display: state.display + value,
-          history: state.history + value,
-          decimalUsed: true
-        }));
-      }
-    }
+    console.log(e)
   }
-
 
   render() {
     return (
@@ -84,7 +22,7 @@ class Calculator extends React.Component {
           {this.state.display}
         </div>
 
-        <div onClick={this.handleButtonClick} className="buttons">
+        <div className="buttons">
             <button id="clear">AC</button>
             <button id="divide">/</button>
             <button id="multiply">x</button>
@@ -103,6 +41,7 @@ class Calculator extends React.Component {
             <button id="zero">0</button>
             <button id="decimal">.</button>
         </div>
+        
       </div>
     )
   }
@@ -112,3 +51,4 @@ ReactDOM.render(
   <Calculator />,
   document.getElementById('root')
 );
+
