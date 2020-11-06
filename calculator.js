@@ -51,29 +51,48 @@ class Calculator extends React.Component {
 
   handleButtonPress(e) {
     const buttonPressed = e.target.innerHTML;
-    console.log(buttonPressed)
-    
+
+    /* Handle all non-number inputs */
     if (Number.isNaN( Number(buttonPressed) )) {
       if (buttonPressed === "AC") {
         this.setState({
           display: "0"
         });
+      /* Handle decimal points input */
       } else if (buttonPressed === ".") { 
-        if (this.state.display[this.state.display.length - 1] === ".") return;
-        this.setState((state) => ({
-          display: state.display + buttonPressed
-        }));
+        const operatorMatches = Array.from(this.state.display.matchAll(/[-\+\*\\]/g));
+
+        if (operatorMatches[0]) {
+          const lastOperatorMatch = operatorMatches[operatorMatches.length - 1];
+          const currentInput = this.state.display.slice(lastOperatorMatch.index + 1);
+          if(currentInput.indexOf(".") >= 0) {
+            return
+          } else {
+            this.setState((state) => ({
+              display: state.display + buttonPressed
+            })); 
+          }
+        } else {
+          if (this.state.display.indexOf(".") >= 0) return;
+
+          this.setState((state) => ({
+            display: state.display + buttonPressed
+          })); 
+        }
+      /* Handle equal sign input */
       } else if (buttonPressed === "=") {
         const result = eval(this.state.display);
 
         this.setState({
           display: result
         })
+      /* Handle add, subtract, multiply, divide input */
       } else {
         this.setState((state) => ({
           display: state.display + buttonPressed
         }));
       }
+    /* Handle all number inputs */
     } else {
       if (this.state.display === "0") {
         this.setState({
