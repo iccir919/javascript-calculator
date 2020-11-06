@@ -2,8 +2,8 @@
 
 function Display(props) {
   return (
-    <div>
-      <h3>Display: {props.display}</h3>
+    <div id="display">
+      <h3>{props.display}</h3>
     </div>
   );
 }
@@ -13,12 +13,13 @@ class Buttons extends React.Component {
     super(props);
   }
 
+
   render() {
     return (
-      <div className="buttons">
+      <div onClick={this.props.handleButtonPress} className="buttons">
             <button id="clear">AC</button>
             <button id="divide">/</button>
-            <button id="multiply">x</button>
+            <button id="multiply">*</button>
             <button id="seven">7</button>
             <button id="eight">8</button>
             <button id="nine">9</button>
@@ -44,13 +45,53 @@ class Calculator extends React.Component {
     this.state = {
       display: "0"
     }
+
+    this.handleButtonPress = this.handleButtonPress.bind(this);
+  }
+
+  handleButtonPress(e) {
+    const buttonPressed = e.target.innerHTML;
+    console.log(buttonPressed)
+    
+    if (Number.isNaN( Number(buttonPressed) )) {
+      if (buttonPressed === "AC") {
+        this.setState({
+          display: "0"
+        });
+      } else if (buttonPressed === ".") { 
+        if (this.state.display[this.state.display.length - 1] === ".") return;
+        this.setState((state) => ({
+          display: state.display + buttonPressed
+        }));
+      } else if (buttonPressed === "=") {
+        const result = eval(this.state.display);
+
+        this.setState({
+          display: result
+        })
+      } else {
+        this.setState((state) => ({
+          display: state.display + buttonPressed
+        }));
+      }
+    } else {
+      if (this.state.display === "0") {
+        this.setState({
+          display: "" + buttonPressed
+        })
+      } else {
+        this.setState((state) => ({
+          display: state.display + buttonPressed
+        }));
+      }
+    }
   }
 
   render() {
     return (
       <div className="calculator">
         <Display display={this.state.display} />
-        <Buttons />
+        <Buttons handleButtonPress={this.handleButtonPress} />
       </div>
     )
   }
