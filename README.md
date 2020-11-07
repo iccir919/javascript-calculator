@@ -34,4 +34,4 @@ Fulfill the below user stories and get all of the tests to pass. Give it your ow
 
 - [x] User Story #14: Pressing an operator immediately following = should start a new calculation that operates on the result of the previous evaluation.
 
-- [ ] User Story #15: My calculator should have several decimal places of precision when it comes to rounding (note that there is no exact standard, but you should be able to handle calculations like 2 / 7 with reasonable precision to at least 4 decimal places).
+- [x] User Story #15: My calculator should have several decimal places of precision when it comes to rounding (note that there is no exact standard, but you should be able to handle calculations like 2 / 7 with reasonable precision to at least 4 decimal places).

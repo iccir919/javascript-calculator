@@ -51,6 +51,7 @@ class Calculator extends React.Component {
 
   handleButtonPress(e) {
     const buttonPressed = e.target.innerHTML;
+    console.log(buttonPressed)
 
     /* Handle all non-number inputs */
     if (Number.isNaN( Number(buttonPressed) )) {
@@ -60,18 +61,23 @@ class Calculator extends React.Component {
         });
       /* Handle decimal points input */
       } else if (buttonPressed === ".") { 
+        /* Look for the last operator to find index of last numeric characater */
         const operatorMatches = Array.from(this.state.display.matchAll(/[-\+\*\\]/g));
-
         if (operatorMatches[0]) {
           const lastOperatorMatch = operatorMatches[operatorMatches.length - 1];
-          const currentInput = this.state.display.slice(lastOperatorMatch.index + 1);
-          if(currentInput.indexOf(".") >= 0) {
-            return
+          const currentNumberInput = this.state.display.slice(lastOperatorMatch.index + 1);
+
+          if(currentNumberInput.indexOf(".") >= 0) {
+            return;
           } else {
             this.setState((state) => ({
               display: state.display + buttonPressed
             })); 
           }
+        /* 
+          In the case there is previous input history, check the current input 
+          for duplicate decimal points 
+        */
         } else {
           if (this.state.display.indexOf(".") >= 0) return;
 
@@ -81,16 +87,37 @@ class Calculator extends React.Component {
         }
       /* Handle equal sign input */
       } else if (buttonPressed === "=") {
-        const result = eval(this.state.display);
+        const consecutiveOperatorInput = this.state.display.match(/\d[-\+\*\\]+$/);
+        if(consecutiveOperatorInput) {
+          this.setState((state) => ({
+            display: eval(state.display.slice(0, consecutiveOperatorInput.index + 1))
+          }));
+        } else {
+          const result = eval(this.state.display).toString();
 
-        this.setState({
-          display: result
-        })
+          this.setState({
+            display: result
+          })
+        }
       /* Handle add, subtract, multiply, divide input */
       } else {
-        this.setState((state) => ({
-          display: state.display + buttonPressed
-        }));
+        const consecutiveOperatorInput = this.state.display.match(/\d[-\+\*\\]+$/);
+        if(consecutiveOperatorInput) {
+          if (buttonPressed === "-") {
+            if (consecutiveOperatorInput.input.length === 3) return;
+            this.setState((state) => ({
+              display: state.display + buttonPressed
+            })); 
+          } else {
+            this.setState((state) => ({
+              display: state.display.slice(0, consecutiveOperatorInput.index + 1) + buttonPressed
+            }))
+          }
+        } else {
+          this.setState((state) => ({
+            display: state.display + buttonPressed
+          })); 
+        }
       }
     /* Handle all number inputs */
     } else {
