@@ -8,12 +8,19 @@ html, body, #root {
 
 .calculator {
     max-width: 200px;
+    border: solid;
 }
 
 #display {
     font-size: 1.5em;
     width: 100%;
     text-align: right;
+    border-bottom: solid;
+}
+
+#display h3 {
+    margin: 0.5em;
+    font-family: 'Orbitron'
 }
 
 .buttons {

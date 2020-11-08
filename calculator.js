@@ -1,9 +1,10 @@
 'use strict';
 
 function Display(props) {
+  const output = props.display.length > 7 ? "NUM LIMIT" : props.display
   return (
     <div id="display">
-      <h3>{props.display}</h3>
+      <h3>{output}</h3>
     </div>
   );
 }
