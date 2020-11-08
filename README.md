@@ -1,5 +1,7 @@
 # JavaScript Calculator
 
+## [Live Version](https://iccir919.github.io/javascript-calculator/)
+
 ## Project Objective
 
 Build a CodePen.io app that is functionally similar to this: https://codepen.io/freeCodeCamp/full/wgGVVX.
